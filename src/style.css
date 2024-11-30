@@ -28,6 +28,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family: monospace;
 }
 
 h1 {
@@ -44,7 +45,7 @@ h1 {
 }
 
 #map {
-  width: 100%;
+  width: 80%;
   height: 80vh;
 }
 
