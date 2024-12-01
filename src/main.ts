@@ -8,8 +8,10 @@
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./leafletWorkaround.ts";
+
 import Board from "./board.ts";
 import Geocache from "./geocache.ts";
+
 import "./style.css";
 
 // =======================
@@ -77,7 +79,7 @@ function updateCoinDisplay(): void {
   ).join("");
   statusPanel.innerHTML = collectedCoins.length > 0
     ? `${collectedCoins.length} coins accumulated`
-    : "No coins yet...";
+    : "0 coins";
 }
 updateCoinDisplay();
 

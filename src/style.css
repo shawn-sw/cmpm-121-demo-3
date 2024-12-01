@@ -5,7 +5,7 @@ root {
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #9bcaff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -36,17 +36,43 @@ h1 {
   line-height: 1.1;
 }
 
-#controlPanel {
-  padding: 1rem;
-}
-
-#statusPanel {
-  padding: 1rem;
+#app {
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-direction: row; /* 子元素水平排列 */
+  height: 100vh; /* 页面高度占满视口 */
+  overflow: hidden; /* 防止内容溢出 */
 }
 
 #map {
-  width: 80%;
+  flex: 1;
   height: 80vh;
+  background-color: #9bcaff;
+}
+
+#inventory {
+  width: 20%; /* 固定宽度为主容器的 20% */
+  height: 100%; /* 高度占满父容器 */
+  background-color: #f9f9f9; /* 玩家库存背景色 */
+  border-left: 1px solid #ccc; /* 添加分隔线 */
+  display: flex;
+  flex-direction: column; /* 子内容垂直排列 */
+  padding: 10px; /* 添加内边距 */
+  box-sizing: border-box; /* 包含内边距在宽度内 */
+  overflow-y: auto; /* 当内容超出时允许垂直滚动 */
+}
+
+#control-panel {
+  position: absolute; /* 悬浮在地图上 */
+  top: 120px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-direction: column; /* 子元素垂直排列 */
+  gap: 10px; /* 按钮之间的间距 */
 }
 
 button {
@@ -55,7 +81,7 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
+  font-family: Arial;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
@@ -73,7 +99,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #9bcaff;
   }
 
   a:hover {
