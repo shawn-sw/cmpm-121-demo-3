@@ -1,9 +1,10 @@
 // =======================
-// 引入库和样式
+// Import Libraries and Styles
 // =======================
-// 这里导入所需的第三方库、样式和项目模块。
-// Leaflet 用于地图交互。
-// Board 和 Geocache 用于管理地图中的格子和缓存点。
+// This section imports the necessary third-party libraries, styles, and project modules.
+// Leaflet is used for map interactions.
+// Board and Geocache are used to manage the grid and cache points on the map.
+
 
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,10 +16,11 @@ import Geocache from "./geocache.ts";
 import "./style.css";
 
 // =======================
-// 地图和游戏参数设置
+// Map and Game Parameter Settings
 // =======================
-// 初始化地图中心、缩放等级、邻域大小等参数。
-// 定义游戏相关的全局变量和事件总线。
+// Initialize parameters such as the map center, zoom level, and neighborhood size.
+// Define global variables and the event bus for game-related functionalities.
+
 
 const OAKES_CLASSROOM = leaflet.latLng(36.98949379578401, -122.06277128548504);
 const GAMEPLAY_ZOOM_LEVEL = 19;
@@ -34,10 +36,10 @@ let polylinePts: leaflet.LatLng[][] = [];
 const bus = new EventTarget();
 
 // =======================
-// 创建游戏板和地图
+// Create Game Board and Map
 // =======================
-// 设置游戏板实例，用于管理缓存格子。
-// 初始化 Leaflet 地图和玩家标记。
+// Set up the game board instance to manage cached grid cells.
+// Initialize the Leaflet map and player marker.
 
 const gameBoard = new Board(
   TILE_DEGREES,
@@ -65,9 +67,10 @@ playerMarker.bindTooltip("You!");
 playerMarker.addTo(map);
 
 // =======================
-// 玩家硬币和状态面板
+// Player Coins and Status Panel
 // =======================
-// 管理玩家硬币状态的逻辑，包括更新库存面板。
+// Logic to manage the player's coin status, including updating the inventory panel.
+
 
 const statusPanel = document.querySelector<HTMLDivElement>("#inventory-total")!;
 function updateCoinDisplay(): void {
@@ -84,9 +87,9 @@ function updateCoinDisplay(): void {
 updateCoinDisplay();
 
 // =======================
-// 缓存点管理
+// Cache Point Management
 // =======================
-// 负责缓存点的生成、显示以及交互逻辑。
+// Responsible for the generation, display, and interaction logic of cache points.
 
 const visibleCaches: Geocache[] = [];
 const cacheLayer = leaflet.layerGroup().addTo(map);
@@ -143,9 +146,10 @@ function generateCacheItem(cache: Geocache): void {
 }
 
 // =======================
-// 玩家移动和自动定位
+// Player Movement and Auto-Positioning
 // =======================
-// 包括玩家手动和自动移动的功能逻辑。
+// Includes the functional logic for both manual and automatic player movement.
+
 
 function updatePlayerPosition(direction: Cell): void {
   if (autoTrackingEnabled) return; // 自动定位时不手动移动
@@ -155,13 +159,13 @@ function updatePlayerPosition(direction: Cell): void {
     lng: currentPos.lng + TILE_DEGREES * direction.j,
   };
 
-  // 更新玩家标记位置
+  // Update Player Marker Position
   playerMarker.setLatLng(newPos);
 
-  // 添加折线绘制逻辑
+  // Add Polyline Drawing Logic
   extendPolyline(newPos);
 
-  // 触发玩家移动事件
+  // Trigger Player Movement Event
   bus.dispatchEvent(new Event("player-moved"));
 }
 
@@ -188,9 +192,10 @@ function toggleAutoTracking(enable: boolean): void {
 }
 
 // =======================
-// 数据持久化逻辑
+// Data Persistence Logic
 // =======================
-// 保存和恢复玩家数据，包括缓存点、硬币状态等。
+// Save and restore player data, including cache points, coin status, and other game states.
+
 
 function storePlayerData() {
   saveToLocalStorage("collectedCoins", collectedCoins);
@@ -217,9 +222,10 @@ function loadGameState() {
 }
 
 // =======================
-// 事件监听器
+// Event Listeners
 // =======================
-// 处理与玩家移动和定位相关的事件。
+// Handle events related to player movement and positioning.
+
 
 bus.addEventListener("player-moved", () => {
   clearStaleCaches();
@@ -231,9 +237,10 @@ bus.addEventListener(
   () => toggleAutoTracking(autoTrackingEnabled),
 );
 // =======================
-// 控制面板功能
+// Control Panel Functions
 // =======================
-// 定义玩家可通过按钮交互的控制命令（北、南、西、东、自动定位、重置进度）。
+// Define control commands (North, South, West, East, Auto-Positioning, Reset Progress) that players can interact with via buttons.
+
 
 interface Cmd {
   execute(): void;
@@ -288,9 +295,10 @@ for (const button in controlPanel) {
 }
 
 // =======================
-// 绘制折线路径
+// Draw Polyline Path
 // =======================
-// 管理地图上的折线路径显示，包括创建新折线段和扩展现有路径。
+// Manage the display of polyline paths on the map, including creating new segments and extending existing paths.
+
 
 const polylineLayer = leaflet.layerGroup().addTo(map);
 
@@ -304,9 +312,10 @@ function drawPolyline(points: leaflet.LatLng[] = polylinePts[0]) {
 }
 
 // =======================
-// 缓存点显示与清理
+// Cache Point Display and Cleanup
 // =======================
-// 显示玩家附近的缓存点，并在玩家移动时清理过时的缓存点。
+// Display cache points near the player and clean up outdated cache points when the player moves.
+
 
 function momentoKey(cell: Cell): string {
   return [cell.i, cell.j].toString();
@@ -331,9 +340,10 @@ function clearStaleCaches() {
 }
 
 // =======================
-// 数据持久化工具函数
+// Data Persistence Utility Functions
 // =======================
-// 用于管理数据在本地存储中的保存、获取和删除操作。
+// Used to manage save, retrieve, and delete operations for data in local storage.
+
 
 // 保存数据到本地存储
 function saveToLocalStorage(key: string, data: string | number | object) {
@@ -351,9 +361,10 @@ function deleteFromLocalStorage(key: string) {
 }
 
 // =======================
-// 游戏进度重置
+// Game Progress Reset
 // =======================
-// 提供重置玩家数据和清理地图的功能。
+// Provides functionality to reset player data and clear the map.
+
 
 function resetGameState() {
   deleteFromLocalStorage("collectedCoins");
@@ -378,17 +389,19 @@ function resetGameState() {
 }
 
 // =======================
-// 页面加载和卸载事件
+// Page Load and Unload Events
 // =======================
-// 在页面加载时恢复玩家数据，卸载时保存数据。
+// Restore player data on page load and save data on unload.
+
 
 globalThis.addEventListener("beforeunload", storePlayerData);
 globalThis.addEventListener("load", loadGameState);
 
 // =======================
-// 调试信息（可选）
+// Debug Information (Optional)
 // =======================
-// 显示在控制台上的调试输出，用于验证数据加载和缓存点生成逻辑。
+// Debug output displayed in the console to verify data loading and cache point generation logic.
+
 
 function transferCoins(source: Coin[], stock: Coin[]): [Coin[], Coin[]] {
   if (source.length === 0) return [source, stock]; // 如果没有硬币可转移
