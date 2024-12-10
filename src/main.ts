@@ -5,7 +5,6 @@
 // Leaflet is used for map interactions.
 // Board and Geocache are used to manage the grid and cache points on the map.
 
-
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./leafletWorkaround.ts";
@@ -20,7 +19,6 @@ import "./style.css";
 // =======================
 // Initialize parameters such as the map center, zoom level, and neighborhood size.
 // Define global variables and the event bus for game-related functionalities.
-
 
 const OAKES_CLASSROOM = leaflet.latLng(36.98949379578401, -122.06277128548504);
 const GAMEPLAY_ZOOM_LEVEL = 19;
@@ -70,7 +68,6 @@ playerMarker.addTo(map);
 // Player Coins and Status Panel
 // =======================
 // Logic to manage the player's coin status, including updating the inventory panel.
-
 
 const statusPanel = document.querySelector<HTMLDivElement>("#inventory-total")!;
 function updateCoinDisplay(): void {
@@ -150,7 +147,6 @@ function generateCacheItem(cache: Geocache): void {
 // =======================
 // Includes the functional logic for both manual and automatic player movement.
 
-
 function updatePlayerPosition(direction: Cell): void {
   if (autoTrackingEnabled) return; // 自动定位时不手动移动
   const currentPos = playerMarker.getLatLng();
@@ -196,7 +192,6 @@ function toggleAutoTracking(enable: boolean): void {
 // =======================
 // Save and restore player data, including cache points, coin status, and other game states.
 
-
 function storePlayerData() {
   saveToLocalStorage("collectedCoins", collectedCoins);
   clearStaleCaches();
@@ -226,7 +221,6 @@ function loadGameState() {
 // =======================
 // Handle events related to player movement and positioning.
 
-
 bus.addEventListener("player-moved", () => {
   clearStaleCaches();
   displayNearbyCaches();
@@ -240,7 +234,6 @@ bus.addEventListener(
 // Control Panel Functions
 // =======================
 // Define control commands (North, South, West, East, Auto-Positioning, Reset Progress) that players can interact with via buttons.
-
 
 interface Cmd {
   execute(): void;
@@ -299,7 +292,6 @@ for (const button in controlPanel) {
 // =======================
 // Manage the display of polyline paths on the map, including creating new segments and extending existing paths.
 
-
 const polylineLayer = leaflet.layerGroup().addTo(map);
 
 function newPolyline(point: leaflet.LatLng) {
@@ -315,7 +307,6 @@ function drawPolyline(points: leaflet.LatLng[] = polylinePts[0]) {
 // Cache Point Display and Cleanup
 // =======================
 // Display cache points near the player and clean up outdated cache points when the player moves.
-
 
 function momentoKey(cell: Cell): string {
   return [cell.i, cell.j].toString();
@@ -344,7 +335,6 @@ function clearStaleCaches() {
 // =======================
 // Used to manage save, retrieve, and delete operations for data in local storage.
 
-
 // 保存数据到本地存储
 function saveToLocalStorage(key: string, data: string | number | object) {
   localStorage.setItem(`cmpm121d3_${key}`, JSON.stringify(data));
@@ -364,7 +354,6 @@ function deleteFromLocalStorage(key: string) {
 // Game Progress Reset
 // =======================
 // Provides functionality to reset player data and clear the map.
-
 
 function resetGameState() {
   deleteFromLocalStorage("collectedCoins");
@@ -393,7 +382,6 @@ function resetGameState() {
 // =======================
 // Restore player data on page load and save data on unload.
 
-
 globalThis.addEventListener("beforeunload", storePlayerData);
 globalThis.addEventListener("load", loadGameState);
 
@@ -401,7 +389,6 @@ globalThis.addEventListener("load", loadGameState);
 // Debug Information (Optional)
 // =======================
 // Debug output displayed in the console to verify data loading and cache point generation logic.
-
 
 function transferCoins(source: Coin[], stock: Coin[]): [Coin[], Coin[]] {
   if (source.length === 0) return [source, stock]; // 如果没有硬币可转移
